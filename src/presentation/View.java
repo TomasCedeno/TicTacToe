@@ -1,9 +1,9 @@
-
 package presentation;
 
 import java.awt.Canvas;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 
@@ -156,9 +156,13 @@ public class View extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+    public boolean ask(String message){
+        return 0 == JOptionPane.showConfirmDialog(this, message, "", JOptionPane.YES_NO_OPTION);
+    }
+    
+    public void report(String message){
+        JOptionPane.showMessageDialog(this, message);
+    }
 
     public Model getOurModel() {
         return ourModel;

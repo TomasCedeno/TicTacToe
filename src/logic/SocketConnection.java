@@ -3,9 +3,15 @@ package logic;
 
 public interface SocketConnection{
     
-    public void sendMove(int move);
+    /*
+        Protocolo:
+        Se envia y recibe una cadena compuesta por la jugada y el estado/opcion del juego
+        separados por dos puntos --> "jugada:estado"
+    */
     
-    public int getMove();
+    public void sendInfo(String info);
+    
+    public String[] getInfo();
     
     public void close();
 }

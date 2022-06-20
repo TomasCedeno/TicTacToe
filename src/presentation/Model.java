@@ -19,6 +19,7 @@ public class Model implements Runnable{
     private boolean active;
     private SocketConnection socket;
     private boolean myTurn;
+    private String state;
     
     public Model(){
         startWindow = new StartGameView(this);
@@ -27,6 +28,7 @@ public class Model implements Runnable{
         process = new Thread(this);
         colorCounter = 0;
         active = true;
+        state = "play";
     }
     
     public void starts() {        
@@ -58,9 +60,16 @@ public class Model implements Runnable{
             System.out.println("Error: "+ex.getMessage());
         }
     }
+        
+    public void playAgain(){
+        resetCanvas(true);
+        ourGame.resetMatriz();
+        window.getLblMessage().setText("Turno de "+ ((window.getOurModel().getOurGame().getTurn() == 0)?"X":"O"));
+    }
     
     public void finish(){
         process.stop();
+        socket.sendInfo("-1:finish");
         socket.close();
         System.exit(0);
     } 
@@ -126,7 +135,6 @@ public class Model implements Runnable{
     public void animateCanvas() {              
         for (int k=0; k<4; k++){
             int i = ourGame.selectCanvas();
-
             window.getOurCanvas()[i].setBackground(Color.BLACK);
         }
         
@@ -197,13 +205,45 @@ public class Model implements Runnable{
     public SocketConnection getSocket() {
         return socket;
     }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
+    }
     
     private class UpdateBoard implements Runnable{
         @Override
         public void run() {
-            while(true){
+            while(active){
+                String[] rivalInfo = socket.getInfo();
+                int move = Integer.valueOf(rivalInfo[0]);
+                String rivalState = rivalInfo[1];
+                                                
+                if(rivalState.equals("finish")){
+                    window.report("Tu oponente ha abandonado el juego.");
+                    finish();
+                }
+                
+                if(state.equals("again") && rivalState.equals("again")){
+                    playAgain();
+                    state = "play";
+                    continue;
+                    
+                } else if (rivalState.equals("again")){
+                   if (window.ask("Tu oponente quiere juagar otra vez, aceptas?")) {
+                        state = "play";
+                        socket.sendInfo("-1:again");
+                        playAgain();
+                        continue;
+                    } else {
+                       finish();
+                    }
+                }
+                
                 if (!myTurn){
-                    int move = socket.getMove();
                     paintXO(move);
                     myTurn = true;
                 }

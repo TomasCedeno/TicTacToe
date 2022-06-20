@@ -20,7 +20,7 @@ public class Controller implements MouseListener, ActionListener{
             for(int i=0;i<9;i++){
                 if(e.getSource() == window.getOurCanvas()[i]){
                     window.getOurModel().paintXO(i);
-                    window.getOurModel().getSocket().sendMove(i);
+                    window.getOurModel().getSocket().sendInfo(String.valueOf(i)+":play");
                     window.getOurModel().setMyTurn(false);
                     break;
                 }
@@ -52,9 +52,8 @@ public class Controller implements MouseListener, ActionListener{
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getSource() == window.getBtnAgain()){
-            window.getOurModel().resetCanvas(true);
-            window.getOurModel().getOurGame().resetMatriz();
-            window.getLblMessage().setText("Turno de "+ ((window.getOurModel().getOurGame().getTurn() == 0)?"X":"O"));
+            window.getOurModel().setState("again");
+            window.getOurModel().getSocket().sendInfo("-1:again");
             
         }else if (e.getSource() == window.getBtnEnd()){
             window.getOurModel().setActive(false);

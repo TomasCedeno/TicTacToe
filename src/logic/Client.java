@@ -11,6 +11,7 @@ public class Client implements SocketConnection{
     private Socket myServer;
     private DataInputStream dataIn;
     private DataOutputStream dataOut;
+    private byte message[] = new byte[100];
     
     public Client(int portS, String route) throws IOException {          
         myServer = new Socket(route, portS);
@@ -20,23 +21,24 @@ public class Client implements SocketConnection{
     }
     
     @Override
-    public void sendMove(int move){
+    public void sendInfo(String info){
         try{
-            dataOut.writeInt(move);
+            dataOut.write(info.getBytes());
         } catch(IOException ex){
             System.out.println("Error: "+ex.getMessage());
         }
     }
     
     @Override
-    public int getMove(){
+    public String[] getInfo(){
         try{
-            int move = dataIn.readInt();
-            return move;
+            dataIn.read(message);
+            String[] info = new String(message).trim().split(":");
+            return info;
         } catch(IOException ex){
             System.out.println("Error: "+ex.getMessage());
         }
-        return 0;
+        return null;
     }
     
     @Override
