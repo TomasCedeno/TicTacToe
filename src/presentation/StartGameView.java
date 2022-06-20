@@ -1,4 +1,3 @@
-
 package presentation;
 
 import java.net.InetAddress;
@@ -16,11 +15,9 @@ public class StartGameView extends javax.swing.JFrame {
             model = m;
             controller = new StartController(this);
             initComponents();
-            btnCreate.addActionListener(controller);
-            btnJoin.addActionListener(controller);
             lblOurIp.setText("Tu IP: "+InetAddress.getLocalHost().getHostAddress());
             lblOurPort.setText("Tu Puerto: 5000");
-            
+            catchEvents();
         } catch(Exception ex){
         }
         
@@ -157,6 +154,11 @@ public class StartGameView extends javax.swing.JFrame {
 
     public Model getModel() {
         return model;
+    }
+    
+    public void catchEvents(){
+        btnCreate.addActionListener(controller);
+        btnJoin.addActionListener(controller);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

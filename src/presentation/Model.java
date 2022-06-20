@@ -1,4 +1,3 @@
-
 package presentation;
 
 import Logic.Client;
@@ -51,7 +50,7 @@ public class Model implements Runnable{
             window.setSize(500, 580);
             window.setVisible(true);
             window.setLocationRelativeTo(null);
-            //board();
+            board();
             process.start();
             new Thread(new UpdateBoard()).start();
             
