@@ -60,7 +60,8 @@ public class Model implements Runnable{
     }
     
     public void finish(){
-        process.stop(); 
+        process.stop();
+        socket.close();
         System.exit(0);
     } 
     
@@ -208,7 +209,7 @@ public class Model implements Runnable{
                 }
                 
                 gameOver();
-                if(ourGame.tie()){
+                if(ourGame.tie() && ourGame.getWinner().equals("#")){
                     window.getLblMessage().setText("Empate");
                 }
             }  

@@ -22,6 +22,7 @@ public class Game {
         win = _win;
         
         finish = false;
+        winner = "#";
         
         int[] _account = {0, 1, 2, 3, 4, 5, 6, 7, 8};
         account = _account;
@@ -63,12 +64,13 @@ public class Game {
         return 10;
     }
     
-    public boolean tie(){
+    public boolean tie(){        
         for(int i=0;i<9;i++){
             if(matrix[i] == '#'){
                 return false;
             }
         }
+        
         return true;
     }
     
@@ -96,6 +98,7 @@ public class Game {
             matrix[i] = '#';
         }
         finish = false;
+        winner = "#";
     }
     
     public String getWinner() {

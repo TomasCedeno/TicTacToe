@@ -42,7 +42,7 @@ public class Server implements SocketConnection{
         try{
             return dataIn.readInt(); 
         } catch(IOException ex){
-            System.out.println("Error: "+ex.getMessage());
+            System.out.println("Error: "+ex);
         }
         return -1;
     }

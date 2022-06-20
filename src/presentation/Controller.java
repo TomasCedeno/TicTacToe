@@ -28,7 +28,7 @@ public class Controller implements MouseListener, ActionListener{
         }
         
         window.getOurModel().gameOver();
-        if(window.getOurModel().getOurGame().tie()){
+        if(window.getOurModel().getOurGame().tie() && window.getOurModel().getOurGame().getWinner().equals("#")){
             window.getLblMessage().setText("Empate");
         }
     }
@@ -55,7 +55,8 @@ public class Controller implements MouseListener, ActionListener{
             window.getOurModel().resetCanvas(true);
             window.getOurModel().getOurGame().resetMatriz();
             window.getLblMessage().setText("Turno de "+ ((window.getOurModel().getOurGame().getTurn() == 0)?"X":"O"));
-        }else{
+            
+        }else if (e.getSource() == window.getBtnEnd()){
             window.getOurModel().setActive(false);
             window.getOurModel().finish();
         }  
