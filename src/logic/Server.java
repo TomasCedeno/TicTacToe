@@ -18,12 +18,8 @@ public class Server implements SocketConnection{
 
     public Server() throws IOException {
         server = new ServerSocket(port);
-            
-        System.out.println("Esperando por oponente...");
 
         client = server.accept();
-
-        System.out.println("Conected " + client.getInetAddress().getHostAddress());
 
         dataIn = new DataInputStream(client.getInputStream());
         dataOut = new DataOutputStream(client.getOutputStream()); 

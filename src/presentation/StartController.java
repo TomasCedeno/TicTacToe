@@ -13,7 +13,7 @@ public class StartController implements ActionListener{
     }
     
     @Override
-    public void actionPerformed(ActionEvent e) {
+    public void actionPerformed(ActionEvent e) {          
         if(e.getSource() == window.getBtnCreate()){
             window.getModel().startBoard("create");
             

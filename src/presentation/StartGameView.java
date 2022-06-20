@@ -2,6 +2,7 @@ package presentation;
 
 import java.net.InetAddress;
 import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 
@@ -154,6 +155,10 @@ public class StartGameView extends javax.swing.JFrame {
 
     public Model getModel() {
         return model;
+    }
+
+    public JLabel getLblTitle() {
+        return lblTitle;
     }
     
     public void catchEvents(){

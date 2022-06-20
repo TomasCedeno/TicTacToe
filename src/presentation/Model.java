@@ -20,6 +20,7 @@ public class Model implements Runnable{
     private SocketConnection socket;
     private boolean myTurn;
     private String state;
+    private boolean title; 
     
     public Model(){
         startWindow = new StartGameView(this);
@@ -29,12 +30,13 @@ public class Model implements Runnable{
         colorCounter = 0;
         active = true;
         state = "play";
+        title = true;
     }
     
     public void starts() {        
         startWindow.setVisible(true);
-        startWindow.setLocationRelativeTo(null); 
-                
+        startWindow.setLocationRelativeTo(null);   
+        process.start();
     }
     
     public void startBoard(String mode){
@@ -49,11 +51,10 @@ public class Model implements Runnable{
             }
             
             startWindow.dispose();
+            title = false;
             window.setSize(500, 580);
             window.setVisible(true);
             window.setLocationRelativeTo(null);
-            board();
-            process.start();
             new Thread(new UpdateBoard()).start();
             
         } catch (Exception ex){
@@ -111,19 +112,31 @@ public class Model implements Runnable{
         window.getLblMessage().setText("Ganador: " + ourGame.getWinner());
     }
     
-    public void animatePanel() {
+    public void animatePanel(boolean title) {
         Color colors[] = {Color.BLUE, Color.CYAN, Color.GRAY, Color.GREEN, Color.MAGENTA, Color.ORANGE, Color.PINK, Color.RED, Color.LIGHT_GRAY};
         if(colorCounter == 9) colorCounter = 0;
         Color color = colors[colorCounter++];
-        window.getPanel().setBackground(color);
-        window.getLblMessage().setForeground(color);
+        
+        if(title){
+            startWindow.getLblTitle().setForeground(color);
+        }else{
+            window.getPanel().setBackground(color);
+            window.getLblMessage().setForeground(color);
+        }
     }
     
     @Override
     public void run(){
         try{
+            while(title){
+                animatePanel(title);
+                Thread.sleep(1700);
+            }
+            
+            board();
+            
             while(active){
-                animatePanel();
+                animatePanel(title);
                 Thread.sleep(1700);
             }    
         }catch(Exception e){
